@@ -1,0 +1,193 @@
+{
+	// Place your snippets for advpl here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"Aviso_varinfo": {
+		"prefix": ["Aviso","VarInfo"],
+		"body": ["Aviso( 'VarInfo', VarInfo('${1:variavel}', ${1:variavel} , , .F. ) ,{'ok'} ,4,,,, .T.)$0"],
+		"description": "Insert aviso com varinfo"
+	},
+	"Posicione": {
+		"prefix": ["Posicione"],
+		"body": ["Posicione(\"${1:tabela}\", 1, xFilial(\"${1:tabela}\")+${2:chave}, \"${3:retorno}\")$0"],
+		"description": "Insert aviso com varinfo"
+	},
+	"Static_User_Function": {
+		"prefix": ["Static","User","Function","Pdoc"],
+		"body": ["/*/{Protheus.doc} ${1:funcao}",
+			"${2:descricao}",
+			"@author Caio.Lima",
+			"@since $CURRENT_DATE/$CURRENT_MONTH/$CURRENT_YEAR",
+			"/*/",
+			"${3|Static,User|} Function ${1:funcao}()",
+			"\t$0",
+			"Return",
+			],
+		"description": "Static ou User function padrao"
+	},
+	"For": {
+		"prefix": ["For"],
+		"body": [
+			"Local ${1:_nx} := 0",
+			"For ${1:_nx} := 1 to Len(${2:array})",
+			"\t$0",	
+			"Next"
+			],
+		"description": "Incluir um for para array"
+	},
+	"Sql_string": {
+		"prefix": ["sql"],
+		"body": [
+			"_cSql += \" ${TM_SELECTED_TEXT} \"+CRLF"
+			],
+		"description": "Encapsula o texto selecionado no formato de string"
+	},
+	"retsqlname_string": {
+		"prefix": ["retsqlname"],
+		"body": [
+			"\"+RetSQLName('$TM_SELECTED_TEXT')+\""
+			],
+		"description": "Encapsula o texto selecionado para RetSqlName"
+	},
+	"delete_string": {
+		"prefix": ["delete"],
+		"body": [
+			"${1|D_E_L_E_T_<>'*',%NOTDEL%|}"
+			],
+		"description": "insere a retirada do deleted no sql para protheus"
+	},
+	"dbselectarea": {
+		"prefix": ["dbselectarea"],
+		"body": [
+			"dbSelectArea(\"${1:tabela}\")",
+			"${1:tabela}->(dbSetOrder(1))",
+			"If ${1:tabela}->(dbSeek(xFilial(\"${1:tabela}\")+$0))",
+			"EndIf"
+			],
+		"description": "Insere dbselectarea com if do seek"
+	},
+	"While_db": {
+		"prefix": ["while"],
+		"body": [
+			"While !${1:(_cAlias)}->(Eof())",
+			"\t$TM_SELECTED_TEXT$0",
+			"\t${1:(_cAlias)}->(dbSkip())",
+			"End"
+			],
+		"description": "While para alias"
+	},
+	"dbUseArea": {
+		"prefix": ["dbUseArea"],
+		"body": [
+			"Local _cSql := \"\"",
+			"Local _cAlias := GetNextAlias()",
+			"",
+			"$0",
+			"",
+			"If Select(_cAlias) > 0",
+			"\t(_cAlias)->(dbClosearea())",
+			"Endif",
+			"",
+			"MemoWrite(\"D:\\LOGSQL\\\"+FunName()+\"-\"+ProcName()+\".txt\" , _cSql)",
+			"DbUseArea(.T., \"TOPCONN\", TCGenQry(,,ChangeQuery(_cSql)), _cAlias, .F., .F.)"
+			],
+		"description": "dbUseArea com string sql"
+	},
+	"FwMsgRun": {
+		"prefix": ["FwMsgRun"],
+		"body": [
+			"/* para mudar descricao da tela se usa oSay:cCaption := \"\" dentro da funcao a ser executada ",
+			"ProcessMessage() -> forÃ§a a atualizaÃ§Ã£o da messgem da tela cCaption  */",
+			"FWMsgRun( /* Obj_tela */ , {|oSay| ${1:Funcao_a_ser_executada} } , ${2:Titulo} , ${3:Mensagem} )"
+			],
+		"description": "FwMsgRun"
+	},
+	"User_Function_include": {
+		"prefix": ["User","Function","Include"],
+		"body": [
+			"#INCLUDE \"PROTHEUS.CH\"",
+			"#INCLUDE \"RwMake.CH\"",
+			"",
+			"/*/{Protheus.doc} ${1:funcao}",
+			"${2:descricao}",
+			"@author Caio.Lima",
+			"@since $CURRENT_DATE/$CURRENT_MONTH/$CURRENT_YEAR",
+			"/*/",
+			"User Function ${1:funcao}()",
+			"\t$0",
+			"Return",
+			],
+		"description": "Static ou User function padrao"
+	},
+	"MemoWrite": {
+		"prefix": ["MemoWrite"],
+		"body": [
+			"MemoWrite(\"D:\\logsql\\\"+FunName()+\"_\"+ProcName()+\".txt\", GetLastQuery()[2])"
+			],
+		"description": "Insert memowrite logsql getlastquery"
+	},
+	"RecLock": {
+		"prefix": ["RecLock"],
+		"body": [
+			"RecLock(\"${1:Tabela}\" ,  .F. )",
+			"${1:Tabela}->$0",
+			"${1:Tabela}->(MsUnlock())"
+			],
+		"description": "cl_ Insere reclock"
+	},
+	"integridade": {
+		"prefix": ["Integridade", "restarea"],
+		"body": [
+			"Local _aArea${1:Tabela} := {\"${1:Tabela}\", ${1:Tabela}->(IndexOrd()), ${1:Tabela}->(Recno())}// array com alias , ordem , numero do registro",
+			"//integridade do sistema",
+			"DbSelectArea(_aArea${1:Tabela}[1]) ; ${1:Tabela}->(DbSetOrder(_aArea${1:Tabela}[2])) ; ${1:Tabela}->(DbGoTo(_aArea${1:Tabela}[3]))"
+			],
+		"description": "cl_ usearea restarea manual"
+	},
+	"integridade2": {
+		"prefix": ["Integridade2", "restarea2"],
+		"body": [
+			"Local _aArea := GetArea()",
+			"RestArea(_aArea)"
+			],
+		"description": "cl_ usearea restarea auto"
+	},
+	"AutoGrLog": {
+		"prefix": ["AutoGrLog","gera log"],
+		"body": [
+			"AutoGrLog(\"$0\")"
+			],
+		"description": "cl_ AutoGrLog"
+	},
+	"AutoGrLog_Line": {
+		"prefix": ["ProcLine","AutoGrLog","Alert"],
+		"body": [
+			"AutoGrLog(ProcName() + \" - \" + cValToChar(ProcLine()))"
+			],
+		"description": "cl_ gera log com num da linha"
+	},
+	"Aviso_varinfo 2": {
+		"prefix": ["Aviso", "Varinfo"],
+		"body": [
+			"_aVarI := {${1:_aVar}}",
+			"Aviso( 'VarInfo', VarInfo('_aVarI', _aVarI , , .F. ) ,{'ok'} ,4,,,, .T.)"
+			],
+		"description": "cl_ aviso varinfo multi"
+	},
+	"caio_doc": {
+		"prefix": ["caio","doc","pdoc"],
+		"body": ["/*Caio.Lima - $CURRENT_DATE/$CURRENT_MONTH/$CURRENT_YEAR - $0*/"],
+		"description": "Static ou User function padrao"
+	}
+}
