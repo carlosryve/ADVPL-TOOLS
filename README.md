@@ -1,2 +1,2 @@
 # ADVPL-TOOLS
-Ferramenta Apoio APSDU "+Antigos" / MPSDU "Novos"
+Ferramenta Apoio, para os "+Antigos" conhecida APSDU, os novos conhecem como MPSDU.
